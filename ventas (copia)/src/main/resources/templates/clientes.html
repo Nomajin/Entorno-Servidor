@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Clientes</title>
+    <style>
+    .clearfix::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    </style>
+</head>
+<body>
+    <h1>Clientes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Primer apellido</th>
+                <th>Segundo apellido</th>
+                <th>Ciudad</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="cliente : ${listaClientes}">
+                <td th:text="${cliente.id}"></td>
+                <td th:text="${cliente.nombre}"></td>
+                <td th:text="${cliente.apellido1}"></td>
+                <td th:text="${cliente.apellido2}"></td>
+                <td th:text="${cliente.ciudad}"></td>
+                <td th:text="${cliente.categoria}"></td>
+                <td>
+                    <form th:action="@{/clientes/{id}(id=${cliente.id})}" style="display: inline;">
+                        <input type="submit" value="Detalle" />
+                    </form>
+                    <form th:action="@{/clientes/editar/{id}(id=${cliente.id})}" style="display: inline;">
+                        <input type="submit" value="Editar" />
+                    </form>
+                    <form th:action="@{/clientes/borrar/{id}(id=${cliente.id})}" method="post" style="display: inline;">
+                        <input type="submit" value="Eliminar" />
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listaClientes)}">
+                <td colspan="7">No hay clientes para mostrar.</td>
+            </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/clientes/crear}" style="margin-top: 1em;">
+        <input type="submit" value="Crear" />
+    </form>
+</body>
+</html>
